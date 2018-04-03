@@ -1,0 +1,26 @@
+#!/usr/bin/env ruby
+
+require_relative '../config/environment'
+
+def start_game
+  puts "\nCLI Tic Tac Toe by Adam Walter"
+  puts "\nChoose game type:
+
+  1 - Human vs Human
+  2 - Human vs Computer
+  \n"
+
+  game_type = gets.chomp
+
+  if game_type == "1"
+    puts "we're gonna play Human vs Human"
+  elsif game_type == "2"
+    puts "We;re gonna play Human vs Computer"
+  else
+    puts "Invalid game type selection... try again"
+    start_game
+  end
+
+end
+
+start_game
