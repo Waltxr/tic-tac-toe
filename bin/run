@@ -13,14 +13,19 @@ def start_game
   game_type = gets.chomp
 
   if game_type == "1"
-    puts "we're gonna play Human vs Human"
+    Game.new(Players::Human.new("X"), Players::Human.new("O"), Board.new).play
   elsif game_type == "2"
-    puts "We;re gonna play Human vs Computer"
+    puts "Do you want to be X or O?"
+      if gets.chomp == "x"
+        Game.new(Players::Human.new("X"), Players::Computer.new("O"), Board.new).play
+      elsif gets.chomp =="y"
+        Game.new(Players::Computer.new("X"), Players::Human.new("O"), Board.new).play
+      end
   else
     puts "Invalid game type selection... try again"
     start_game
   end
-
+  puts "Would you like to play another game? [y/ n]"
 end
 
-start_game
+start_game 
