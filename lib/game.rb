@@ -34,12 +34,13 @@ class Game
   end
 
   def turn
-    puts "Please enter a number 1 - #{@n*@n}:"
-    @user_input = current_player.move(@board)
+    puts "Please enter the row number of where you'd like to place your #{current_player.token}:"
+    puts "Then, please enter the column number of where you'd like to place your #{current_player.token}:"
 
+    @user_input = current_player.move(@board)
     if @board.valid_move?(@user_input)
       @board.update(@user_input, current_player)
-    else puts "Please enter a number 1 - #{@n*@n}:"
+    else puts "I'm sorry, that spot is not valid"
       @board.display
       turn
     end
@@ -59,9 +60,9 @@ class Game
   private
 
   def row_win?
-    cells = @board.cells
-    3.times do |l|
-      if cells[l*3] == cells[l*3+1] && cells[l*3] == cells[l*3+2] && cells[l*3]
+    rows = @board.cells
+    @n.times do |l|
+      if rows[l].uniq.length == 1 && rows[l].first
         return true
       end
     end
@@ -69,9 +70,9 @@ class Game
   end
 
   def col_win?
-    cells = @board.cells
-    3.times do |l|
-      cells[l-1] == cells[l+2] && cells[l+2] == cells[l+5] && cells[l-1]
+    cols = @board.cells.transpose
+    @n.times do |l|
+      if cols[l].uniq.length == 1 && cols[l].first
         return true
       end
     end
@@ -79,13 +80,12 @@ class Game
   end
 
   def diag_win?
-    cells = @board.cells
-    if cells[0] == cells[4] && cells[4] == cells[8] && cells[0]
-      return true
-    elsif cells[2] == cells[4] && cells[4] == cells[6] && cells[2]
-      return true
+    test_cases = []
+    t=@n-1
+    t.times do |l|
+      test_cases << (board.cells[l][l] == board.cells[l+1][l+1] && !board.cells[l])      
     end
-    return false
+    test_cases.all?
   end
 
 end

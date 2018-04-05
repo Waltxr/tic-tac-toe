@@ -3,40 +3,49 @@ class Board
 
   def initialize(n)
     @n = n
-    self.cells = Array.new(@n*@n, nil)
+    self.cells = []
+    @n.times do
+      self.cells << Array.new(@n, nil)
+    end
   end
 
   def reset!
-    self.cells = Array.new(@n*@n, nil)
+    self.cells = self.cells = []
+    @n.times do
+      self.cells << Array.new(@n, nil)
+    end
   end
 
   def display
-    rows = self.cells.each_slice(@n)
-
-    rows.each do |row|
+    self.cells.each do |row|
       puts row.join(" | ")
-      puts "---" * @n
     end
   end
 
   def full?
-    self.cells.all? {|cell| cell == "X" || cell == "O"}
+    self.cells.flatten.all? {|cell| cell == "X" || cell == "O"}
   end
 
   def turn_count
-    self.cells.count("X") + self.cells.count("O")
+    self.cells.flatten.count("X") + self.cells.flatten.count("O")
   end
 
   def taken?(position)
-    self.cells[position.to_i-1] == "X" || self.cells[position.to_i-1] == "O"
+    x = position.split(",").first.to_i-1
+    y = position.split(",").last.to_i-1
+    self.cells[x][y] == "X" || self.cells[x][y] == "O"
   end
 
   def valid_move?(position)
-    !taken?(position) && position.to_i >0 && position.to_i <=@n*@n
+    x = position.split(",").first.to_i-1
+    y = position.split(",").last.to_i-1
+    !taken?(position) && x >= 0 && y >= 0 && x <= @n && y <=@n
   end
 
   def update(position, player)
-      self.cells[position.to_i-1] = player.token
+    x = position.split(",").first.to_i-1
+    y = position.split(",").last.to_i-1
+    self.cells[x][y] = player.token
   end
 
 end
