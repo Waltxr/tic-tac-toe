@@ -68,7 +68,7 @@ class Game
   def check_row
     cells = @board.cells
 
-    @n.times do |l|
+    3.times do |l|
       if cells[l*3] == cells[l*3+1] && cells[l*3] == cells[l*3+2] && cells[l*3]
         return true
       end
@@ -78,7 +78,7 @@ class Game
 
   def check_col
     cells = @board.cells
-    @n.times do |l|
+    3.times do |l|
       if cells[l-1] == cells[l+2] && cells[l+2] == cells[l+5] && cells[l-1]
         return true
       end
