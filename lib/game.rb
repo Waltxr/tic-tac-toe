@@ -90,8 +90,7 @@ class Game
     cells = @board.cells
     if cells[0] == cells[4] && cells[4] == cells[8] && cells[0]
       return true
-    elsif
-      cells[2] == cells[4] && cells[4] == cells[6] && cells[2]
+    elsif cells[2] == cells[4] && cells[4] == cells[6] && cells[2]
       return true
     end
     return false
