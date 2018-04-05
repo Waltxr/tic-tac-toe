@@ -19,7 +19,7 @@ def start_game
   elsif game_type == "2"
     puts "Do you want to be X or O?"
     x_or_o = gets.chomp
-    puts "Enter a number for how wide and tall the board should be:"
+    puts "Enter a number representing the dimensions the board. For example, enter 3 for a 3 x 3 board."
     size = gets.chomp.to_i
       if x_or_o == "x"
         Game.new(Players::Human.new("X"), Players::Computer.new("O"), Board.new(size), size).play
