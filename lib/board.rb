@@ -2,23 +2,21 @@ class Board
   attr_accessor :cells
 
   def reset!
-    self.cells = Array.new(9, nil)
+    self.cells = Array.new(@n*@n, nil)
   end
 
-  def initialize
-    self.cells = Array.new(9, nil)
+  def initialize(n)
+    @n = n
+    self.cells = Array.new(@n*@n, nil)
   end
 
   def display
-    puts " #{self.cells[0]} | #{self.cells[1]} | #{self.cells[2]} "
-    puts "-----------"
-    puts " #{self.cells[3]} | #{self.cells[4]} | #{self.cells[5]} "
-    puts "-----------"
-    puts " #{self.cells[6]} | #{self.cells[7]} | #{self.cells[8]} "
-  end
+    rows = self.cells.each_slice(@n)
 
-  def position(user_input)
-    self.cells[user_input.to_i-1]
+    rows.each do |row|
+      puts row.join(" | ")
+      puts "---" * @n
+    end
   end
 
   def full?
@@ -30,12 +28,11 @@ class Board
   end
 
   def taken?(position)
-    self.cells[position.to_i-1] == "X" ||
-    self.cells[position.to_i-1] == "O"
+    self.cells[position.to_i-1] == "X" || self.cells[position.to_i-1] == "O"
   end
 
   def valid_move?(position)
-    !taken?(position) && position.to_i >0 && position.to_i <=9
+    !taken?(position) && position.to_i >0 && position.to_i <=@n*@n
   end
 
   def update(position, player)

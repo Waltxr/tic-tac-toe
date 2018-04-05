@@ -1,11 +1,12 @@
 class Game
   attr_accessor :board, :player_1, :player_2, :user_input
 
-  def initialize(player_1, player_2, board)
+  def initialize(player_1, player_2, board, n)
     @player_1 = player_1
     @player_2 = player_2
     @board = board
     @board.display
+    @n = n
   end
 
   def current_player
@@ -40,12 +41,12 @@ class Game
   end
 
   def turn
-    puts "Please enter a number 1 - 9:"
+    puts "Please enter a number 1 - #{@n*@n}:"
     @user_input = current_player.move(@board)
 
     if @board.valid_move?(@user_input)
       @board.update(@user_input, current_player)
-    else puts "Please enter a number 1-9:"
+    else puts "Please enter a number 1 - #{@n*@n}:"
       @board.display
       turn
     end
@@ -67,7 +68,7 @@ class Game
   def check_row
     cells = @board.cells
 
-    3.times do |l|
+    @n.times do |l|
       if cells[l*3] == cells[l*3+1] && cells[l*3] == cells[l*3+2] && cells[l*3]
         return true
       end
@@ -77,7 +78,7 @@ class Game
 
   def check_col
     cells = @board.cells
-    3.times do |l|
+    @n.times do |l|
       if cells[l-1] == cells[l+2] && cells[l+2] == cells[l+5] && cells[l-1]
         return true
       end
