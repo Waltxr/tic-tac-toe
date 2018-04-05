@@ -13,11 +13,11 @@ class Game
   end
 
   def won?
-    if check_row      
+    if check_row
       return true
-    elsif check_col      
+    elsif check_col
       return true
-    elsif check_diag      
+    elsif check_diag
       return true
     end
     return false
@@ -32,19 +32,25 @@ class Game
   end
 
   def winner
-
+    if current_player == @player_2
+      return @player_1.token
+    else
+      return @player_2.token
+    end
   end
 
   def turn
     puts "Please enter a number 1 - 9:"
     @user_input = current_player.move(@board)
-      if @board.valid_move?(@user_input)
-        @board.update(@user_input, current_player)
-      else puts "Please enter a number 1-9:"
-        @board.display
-        turn
-      end
+
+    if @board.valid_move?(@user_input)
+      @board.update(@user_input, current_player)
+    else puts "Please enter a number 1-9:"
       @board.display
+      turn
+    end
+
+    @board.display
   end
 
   def play

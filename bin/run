@@ -16,9 +16,10 @@ def start_game
     Game.new(Players::Human.new("X"), Players::Human.new("O"), Board.new).play
   elsif game_type == "2"
     puts "Do you want to be X or O?"
-      if gets.chomp == "x"
+    x_or_o = gets.chomp
+      if x_or_o == "x"
         Game.new(Players::Human.new("X"), Players::Computer.new("O"), Board.new).play
-      elsif gets.chomp =="y"
+      elsif x_or_o == "o"
         Game.new(Players::Computer.new("X"), Players::Human.new("O"), Board.new).play
       end
   else
@@ -26,6 +27,9 @@ def start_game
     start_game
   end
   puts "Would you like to play another game? [y/ n]"
+
 end
 
-start_game 
+start_game until gets.chomp == "n"
+
+puts 'goodbye!'
