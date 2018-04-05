@@ -6,15 +6,15 @@ describe Board do
     @board = Board.new(3)
   end
 
-  describe "#cells" do
-    it "board has an attribute of cells" do
-      expect(@board).to respond_to(:cells)
-      expect(@board).to respond_to(:cells=)
+  describe "#grid" do
+    it "board has an attribute of grid" do
+      expect(@board).to respond_to(:grid)
+      expect(@board).to respond_to(:grid=)
     end
   end
 
   describe "#reset!" do
-    it "resets the board's cells to an array all of which elements are nil" do
+    it "resets the board's grid to an array all of which elements are nil" do
       expect(@board.reset!).to eq(Array.new(9, nil))
     end
   end

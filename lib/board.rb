@@ -1,42 +1,42 @@
 class Board
-  attr_accessor :cells, :n
+  attr_accessor :grid, :size
 
-  def initialize(n)
-    @n = n
-    self.cells = Array.new(@n*@n, nil)
+  def initialize(size)
+    @size = size
+    self.reset!
   end
 
   def reset!
-    self.cells = Array.new(@n*@n, nil)
+    self.grid = []
+    @size.times do
+      self.grid << Array.new(@size, nil)
+    end
   end
 
   def display
-    rows = self.cells.each_slice(@n)
-
-    rows.each do |row|
+    self.grid.each do |row|
       puts row.join(" | ")
-      puts "---" * @n
     end
   end
 
   def full?
-    self.cells.all? {|cell| cell == "X" || cell == "O"}
+    self.grid.flatten.all?
   end
 
   def turn_count
-    self.cells.count("X") + self.cells.count("O")
+    self.grid.flatten.count("X") + self.grid.flatten.count("O")
   end
 
   def taken?(position)
-    self.cells[position.to_i-1] == "X" || self.cells[position.to_i-1] == "O"
+    self.grid[position.first][position.last] == "X" || self.grid[position.first][position.last] == "O"
   end
 
   def valid_move?(position)
-    !taken?(position) && position.to_i >0 && position.to_i <=@n*@n
+    !taken?(position) && position.first >= 0 && position.last >= 0 && position.first <= @size && position.last <= @size
   end
 
   def update(position, player)
-      self.cells[position.to_i-1] = player.token
+    self.grid[position.first][position.last] = player.token
   end
 
 end

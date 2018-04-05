@@ -13,16 +13,18 @@ def start_game
   game_type = gets.chomp
 
   if game_type == "1"
-    Game.new(Players::Human.new("X"), Players::Human.new("O"), Board.new).play
+    puts "Enter a number representing the dimensions the board. For example, enter 3 for a 3 x 3 board."
+    size = gets.chomp.to_i
+    Game.new(Players::Human.new("X"), Players::Human.new("O"), Board.new(size), size).play
   elsif game_type == "2"
     puts "Do you want to be X or O?"
     x_or_o = gets.chomp
-    puts "Enter a number for who wide and tall the board should be:"
-    n = gets.chomp.to_i
+    puts "Enter a number for how wide and tall the board should be:"
+    size = gets.chomp.to_i
       if x_or_o == "x"
-        Game.new(Players::Human.new("X"), Players::Computer.new("O"), Board.new(n), n).play
+        Game.new(Players::Human.new("X"), Players::Computer.new("O"), Board.new(size), size).play
       elsif x_or_o == "o"
-        Game.new(Players::Computer.new("X"), Players::Human.new("O"), Board.new(n), n).play
+        Game.new(Players::Computer.new("X"), Players::Human.new("O"), Board.new(size), size).play
       end
   else
     puts "Invalid game type selection... try again"

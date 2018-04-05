@@ -1,12 +1,12 @@
 class Game
   attr_accessor :board, :player_1, :player_2, :user_input
 
-  def initialize(player_1, player_2, board, n)
+  def initialize(player_1, player_2, board, size)
     @player_1 = player_1
     @player_2 = player_2
     @board = board
     @board.display
-    @n = n
+    @size = size
   end
 
   def current_player
@@ -14,7 +14,7 @@ class Game
   end
 
   def won?
-    row_win? || col_win? || diag_win?
+    row_win? || col_win? || backslash_win? || forwardslash_win?
   end
 
   def draw?
@@ -34,13 +34,13 @@ class Game
   end
 
   def turn
-    puts "Please enter a number 1 - #{@n*@n}:"
-    @user_input = current_player.move(@board)
+    puts "Please enter the row number of where you'd like to place your #{current_player.token}:"
+    puts "Then, please enter the column number of where you'd like to place your #{current_player.token}:"
 
+    @user_input = current_player.move(@board)
     if @board.valid_move?(@user_input)
       @board.update(@user_input, current_player)
-    else puts "Please enter a number 1 - #{@n*@n}:"
-      @board.display
+    else puts "I'm sorry, that spot is not valid"
       turn
     end
 
@@ -52,16 +52,16 @@ class Game
     if won?
       puts "#{winner} has won"
     elsif draw?
-      puts "Cat's Game!"
+      puts "It's a draw!"
     end
   end
 
   private
 
   def row_win?
-    cells = @board.cells
-    3.times do |l|
-      if cells[l*3] == cells[l*3+1] && cells[l*3] == cells[l*3+2] && cells[l*3]
+    rows = @board.grid
+    @size.times do |l|
+      if rows[l].uniq.length == 1 && rows[l].first
         return true
       end
     end
@@ -69,23 +69,33 @@ class Game
   end
 
   def col_win?
-    cells = @board.cells
-    3.times do |l|
-      cells[l-1] == cells[l+2] && cells[l+2] == cells[l+5] && cells[l-1]
+    cols = @board.grid.transpose
+    @size.times do |l|
+      if cols[l].uniq.length == 1 && cols[l].first
         return true
       end
     end
     return false
   end
 
-  def diag_win?
-    cells = @board.cells
-    if cells[0] == cells[4] && cells[4] == cells[8] && cells[0]
-      return true
-    elsif cells[2] == cells[4] && cells[4] == cells[6] && cells[2]
-      return true
+  def backslash_win?
+    combo = []
+    @size.times do |l|
+      combo << board.grid[l][l]
     end
-    return false
+    combo.uniq.length == 1 && combo.all?
+  end
+
+  def forwardslash_win?
+    combo = []
+    @size.times do |l|
+      if l == 0
+        combo << board.grid[l][-1]
+      else
+        combo << board.grid[l][-l-1]
+      end
+    end    
+    combo.uniq.length == 1 && combo.all?
   end
 
 end
