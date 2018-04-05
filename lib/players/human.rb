@@ -4,8 +4,7 @@ module Players
     def move(board)
       row = gets.chomp
       column = gets.chomp
-
-      "#{row}, #{column}"
+      return [row.to_i-1, column.to_i-1]
     end
 
   end

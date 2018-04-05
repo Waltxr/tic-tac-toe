@@ -1,12 +1,12 @@
 class Game
   attr_accessor :board, :player_1, :player_2, :user_input
 
-  def initialize(player_1, player_2, board, n)
+  def initialize(player_1, player_2, board, size)
     @player_1 = player_1
     @player_2 = player_2
     @board = board
     @board.display
-    @n = n
+    @size = size
   end
 
   def current_player
@@ -14,7 +14,7 @@ class Game
   end
 
   def won?
-    row_win? || col_win? || diag_win?
+    row_win? || col_win? || backslash_win? || forwardslash_win?
   end
 
   def draw?
@@ -41,7 +41,6 @@ class Game
     if @board.valid_move?(@user_input)
       @board.update(@user_input, current_player)
     else puts "I'm sorry, that spot is not valid"
-      @board.display
       turn
     end
 
@@ -53,15 +52,15 @@ class Game
     if won?
       puts "#{winner} has won"
     elsif draw?
-      puts "Cat's Game!"
+      puts "It's a draw!"
     end
   end
 
   private
 
   def row_win?
-    rows = @board.cells
-    @n.times do |l|
+    rows = @board.grid
+    @size.times do |l|
       if rows[l].uniq.length == 1 && rows[l].first
         return true
       end
@@ -70,8 +69,8 @@ class Game
   end
 
   def col_win?
-    cols = @board.cells.transpose
-    @n.times do |l|
+    cols = @board.grid.transpose
+    @size.times do |l|
       if cols[l].uniq.length == 1 && cols[l].first
         return true
       end
@@ -79,13 +78,24 @@ class Game
     return false
   end
 
-  def diag_win?
-    test_cases = []
-    t=@n-1
-    t.times do |l|
-      test_cases << (board.cells[l][l] == board.cells[l+1][l+1] && !board.cells[l])      
+  def backslash_win?
+    combo = []
+    @size.times do |l|
+      combo << board.grid[l][l]
     end
-    test_cases.all?
+    combo.uniq.length == 1 && combo.all?
+  end
+
+  def forwardslash_win?
+    combo = []
+    @size.times do |l|
+      if l == 0
+        combo << board.grid[l][-1]
+      else
+        combo << board.grid[l][-l-1]
+      end
+    end    
+    combo.uniq.length == 1 && combo.all?
   end
 
 end
