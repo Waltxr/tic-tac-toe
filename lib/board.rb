@@ -1,12 +1,12 @@
 class Board
   attr_accessor :cells, :n
 
-  def reset!
+  def initialize(n)
+    @n = n
     self.cells = Array.new(@n*@n, nil)
   end
 
-  def initialize(n)
-    @n = n
+  def reset!
     self.cells = Array.new(@n*@n, nil)
   end
 

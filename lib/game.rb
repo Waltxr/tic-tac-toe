@@ -14,22 +14,15 @@ class Game
   end
 
   def won?
-    if check_row
-      return true
-    elsif check_col
-      return true
-    elsif check_diag
-      return true
-    end
-    return false
+    row_win? || col_win? || diag_win?
   end
 
   def draw?
-    @board.full? && !won? ? true : false
+    @board.full? && !won?
   end
 
   def over?
-    (won? || draw?) ? true : false
+    won? || draw?
   end
 
   def winner
@@ -65,9 +58,8 @@ class Game
 
   private
 
-  def check_row
+  def row_win?
     cells = @board.cells
-
     3.times do |l|
       if cells[l*3] == cells[l*3+1] && cells[l*3] == cells[l*3+2] && cells[l*3]
         return true
@@ -76,17 +68,17 @@ class Game
     return false
   end
 
-  def check_col
+  def col_win?
     cells = @board.cells
     3.times do |l|
-      if cells[l-1] == cells[l+2] && cells[l+2] == cells[l+5] && cells[l-1]
+      cells[l-1] == cells[l+2] && cells[l+2] == cells[l+5] && cells[l-1]
         return true
       end
     end
     return false
   end
 
-  def check_diag
+  def diag_win?
     cells = @board.cells
     if cells[0] == cells[4] && cells[4] == cells[8] && cells[0]
       return true
