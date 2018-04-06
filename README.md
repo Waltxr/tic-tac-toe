@@ -4,8 +4,9 @@ A CLI Tic Tac Toe game with variable grid size. You have the option to play Huma
 
 # Instructions
 
-1. Fork and/or clone the repository then `cd` into `tic-tac-toe` and run:
+Fork and/or clone the repository then `cd` into `tic-tac-toe` and run:
 ```
 ruby bin/run
 ```
+The hit enter in order to get to the main game menu.
 
