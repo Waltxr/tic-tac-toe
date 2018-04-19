@@ -47,8 +47,7 @@ class Game
     else
       puts "Computer's Turn:"
       @user_input = current_player.move(@size)
-      if @board.valid_move?(@user_input)
-        puts "The computer's coordinates are #{@user_input}"
+      if @board.valid_move?(@user_input)        
         @board.update(@user_input, current_player)
       else
         turn
