@@ -34,16 +34,26 @@ class Game
   end
 
   def turn
-    puts "Please enter the row number of where you'd like to place your #{current_player.token}:"
-    puts "Then, please enter the column number of where you'd like to place your #{current_player.token}:"
-
-    @user_input = current_player.move(@board)
-    if @board.valid_move?(@user_input)
-      @board.update(@user_input, current_player)
-    else puts "I'm sorry, that spot is not valid"
-      turn
+    if current_player.human?
+      puts "Please enter the row number of where you'd like to place your #{current_player.token}:"
+      puts "Then, please enter the column number of where you'd like to place your #{current_player.token}:"
+      @user_input = current_player.move
+        if @board.valid_move?(@user_input)
+          @board.update(@user_input, current_player)
+        else
+          puts "I'm sorry, that spot is not valid"
+          turn
+        end
+    else
+      puts "Computer's Turn:"
+      @user_input = current_player.move(@size)
+      if @board.valid_move?(@user_input)
+        puts "The computer's coordinates are #{@user_input}"
+        @board.update(@user_input, current_player)
+      else
+        turn
+      end
     end
-
     @board.display
   end
 
@@ -94,7 +104,7 @@ class Game
       else
         combo << board.grid[l][-l-1]
       end
-    end    
+    end
     combo.uniq.length == 1 && combo.all?
   end
 

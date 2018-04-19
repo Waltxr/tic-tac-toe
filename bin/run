@@ -18,7 +18,7 @@ def start_game
     Game.new(Players::Human.new("X"), Players::Human.new("O"), Board.new(size), size).play
   elsif game_type == "2"
     puts "Do you want to be X or O?"
-    x_or_o = gets.chomp
+    x_or_o = gets.chomp.downcase
     puts "Enter a number representing the dimensions the board. For example, enter 3 for a 3 x 3 board."
     size = gets.chomp.to_i
       if x_or_o == "x"
@@ -32,8 +32,11 @@ def start_game
   end
   puts "Would you like to play another game? [y/ n]"
 
+  if gets.chomp.downcase == "n"
+    puts 'Goodbye!'
+  else
+    start_game
+  end
 end
 
-start_game until gets.chomp == "n"
-
-puts 'goodbye!'
+start_game
