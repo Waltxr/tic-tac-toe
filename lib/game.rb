@@ -45,21 +45,22 @@ class Game
           turn
         end
     else
-      puts "Computer's Turn:"
       @user_input = current_player.move(@size)
-      if @board.valid_move?(@user_input)        
+      if @board.valid_move?(@user_input)
         @board.update(@user_input, current_player)
+        puts "Computer's Turn..."
+        @board.display
       else
         turn
       end
     end
-    @board.display
   end
 
   def play
     turn until over?
     if won?
       puts "#{winner} has won"
+      @board.display
     elsif draw?
       puts "It's a draw!"
     end
